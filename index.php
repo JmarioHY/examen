@@ -1,21 +1,35 @@
 <?php
 include("./controladores/conexion.php");
-session_start();
-if(isset($_SESSION['id_usuario'])){
-	header("Location:admin.php");
-}
+
 //insertar
 
 
 
 if(isset($_POST["registrar"])){
-	$nombre =mysqli_real_escape_string($conexion,$_POST['nombre']);
-	$correo =mysqli_real_escape_string($conexion,$_POST['correo']);
-	$usuario =mysqli_real_escape_string($conexion,$_POST['user']);
-	$password =mysqli_real_escape_string($conexion,$_POST['pass']);
+	$fecha =mysqli_real_escape_string($conexion,$_POST['fecha']);
+	$medico =mysqli_real_escape_string($conexion,$_POST['medicos']);
+	$paciente =mysqli_real_escape_string($conexion,$_POST['pacientes']);
+	$diagnostico =mysqli_real_escape_string($conexion,$_POST['diagnostico']);
+	$tratamiento =mysqli_real_escape_string($conexion,$_POST['tratamiento']);
+	$costo =mysqli_real_escape_string($conexion,$_POST['costo']);
 
-    $password_encriptada = sha1($password); 
-    $sqluser = "SELECT idusuario FROM usuarios WHERE usuario ='$usuario'";
+/*     $costoInt =  intval($costo); */
+    $sqlinsert = "INSERT INTO consulta (Fecha,Medico,Paciente,Diagnostico,Tratamiento,Costo) VALUES ('$fecha','$medico','$paciente','$diagnostico','$tratamiento','$costo')";
+    $resultado =$conexion->query($sqlinsert) ;
+    /* echo $fecha.$medico.$paciente.$diagnostico.$tratamiento.$costo; */
+    if(! $resultado){
+        echo "<script>
+        alert('No se registro');
+        window.location='index.php';
+        </script>";
+    }else{
+        echo "<script>
+    
+        alert('Registro Exitoso!');
+        window.location='consultas.php';
+        </script>"; 
+    }
+    /* $sqluser = "SELECT idusuario FROM usuarios WHERE usuario ='$usuario'";
     $resultadouser= $conexion->query($sqluser);
     $filas = $resultadouser->num_rows;
     if ($filas > 0){
@@ -41,7 +55,7 @@ if(isset($_POST["registrar"])){
     		</script>";
     	}
                    
-    }
+    } */
 
 
 }
@@ -78,31 +92,39 @@ if(isset($_POST["registrar"])){
     <h1 class="h1 mb-4">Capturar</h1>
 
     
-
-    <!-- Fecha-->
+<div class="row">
+    <div class="col-6">
+        <!-- Fecha-->
     <p>Fecha</p>
-    <input type="date" name="fecha" class="form-control mb-4" placeholder="Fecha">
-<!-- Medicos-->
+    <input type="date" name="fecha" class="form-control mb-4" required>
+    </div>
+    <div class="col-6">
+    <p>Fecha</p>
+    <input type="number" name="costo" min="10" max="10000" class="form-control mb-4" maxlength="7" placeholder="$Costo" required> 
+    </div>
+</div>
+    
+<!-- Medicos 1000000-->
     <p>Seleccione un medico del siguiente menú:</p>
     <p>Médicos:
-      <select class="form-control mb-4">
+      <select class="form-control mb-4" name="medicos" required>
         <option value="0">Seleccione:</option>
         <?php
           $query = $conexion -> query ("SELECT * FROM medicos");
           while ($valores = mysqli_fetch_array($query)) {
-            echo '<option value="'.$valores['id_medico'].'">'.$valores['nombre'].'</option>';
+            echo '<option value="'.$valores['nombre'].'">'.$valores['nombre'].'</option>';
           }
         ?>
       </select>
 <!-- pacientes -->
 <p>Seleccione un paciente del siguiente menú:</p>
-    <p>Pacientes:
-      <select class="form-control mb-4">
+    <p>Pacientes:</p>
+      <select class="form-control mb-4" name="pacientes" required>
         <option value="0">Seleccione:</option>
         <?php
           $query = $conexion -> query ("SELECT * FROM pacientes");
           while ($valores = mysqli_fetch_array($query)) {
-            echo '<option value="'.$valores['id_paciente'].'">'.$valores['nombre'].'</option>';
+            echo '<option value="'.$valores['nombre'].'">'.$valores['nombre'].'</option>';
           }
         ?>
       </select>
@@ -110,21 +132,24 @@ if(isset($_POST["registrar"])){
       <!-- Diagnostico -->
 <p>Seleccione un diagnostico del siguiente menú:</p>
     <p>Diagnostico:
-      <select class="form-control mb-4">
+      <select class="form-control mb-4" name="diagnostico" required>
         <option value="0">Seleccione:</option>
         <?php
           $query = $conexion -> query ("SELECT * FROM diagnosticos");
           while ($valores = mysqli_fetch_array($query)) {
-            echo '<option value="'.$valores['id'].'">'.$valores['descripcion'].'</option>';
+            echo '<option value="'.$valores['descripcion'].'">'.$valores['descripcion'].'</option>';
           }
         ?>
       </select>
-
+      <!--Text area -->
+      <p>Agregue un tratamiento para el paciente:</p>
+   
+      <textarea  name="tratamiento" rows="6" cols="60" placeholder="tratamiento" maxlength="250" required  style="text-transform:uppercase;"></textarea>
    
     
 
     
-    <button class="btn btn-info my-4 btn-block" type="submit">Guardar</button>
+    <button class="btn btn-info my-4 btn-block" type="submit" name="registrar">Guardar</button>
     
     </form>
 
@@ -132,7 +157,7 @@ if(isset($_POST["registrar"])){
         </div>
     <div class="col-2"></div>
 </div>    
-
+<a href="consultas.php"><button class="btn btn-primary">consultas</button></a>
 </div>
 
 

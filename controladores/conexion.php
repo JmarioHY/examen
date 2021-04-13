@@ -5,6 +5,6 @@ if(mysqli_connect_errno()){
 	echo "No conectado",mysqli_connect_error();
 	exit();
   }else{
-  	echo 'Conectado!';
+  	echo "<script>console.log('Conectado!')</script>";
   }
 ?>
