@@ -29,33 +29,7 @@ if(isset($_POST["registrar"])){
         window.location='consultas.php';
         </script>"; 
     }
-    /* $sqluser = "SELECT idusuario FROM usuarios WHERE usuario ='$usuario'";
-    $resultadouser= $conexion->query($sqluser);
-    $filas = $resultadouser->num_rows;
-    if ($filas > 0){
-    	echo"<script>
-    	alert('El usuario ya existe');
-    	window.location='index.php';
-    	</script>";
-
-    }else{
-    	//insertar informacion del usuario
-    	$sqlusuario="INSERT INTO usuarios(Nombre,Correo,Usuario,Password)
-    	VALUES ('$nombre','$correo','$usuario','$password_encriptada')";
-    	$resultadousuario =$conexion->query($sqlusuario);
-    	if($resultadousuario > 0){
-    		echo"<script>
-    		alert('Registro exito');
-    		window.location = 'index.php';
-    		</script>";
-    	}else{
-    		echo"<script>
-    		alert('Error al registrarse');
-    		window.location = 'index.php';
-    		</script>";
-    	}
-                   
-    } */
+    
 
 
 }
@@ -78,6 +52,7 @@ if(isset($_POST["registrar"])){
     <link rel="stylesheet" href="css/mdb.min.css">
     <!-- Your custom styles (optional) -->
     <link rel="stylesheet" href="css/style.css">
+    
 </head>
 <body>
     
