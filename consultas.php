@@ -9,7 +9,6 @@ if(isset($_POST['export_data'])) {
     $filename = 'libros.xls';
     
     header('Content-Type: application/vnd.ms-excel');
-    
     header('Content-Disposition: attachment; filename='.$query);
     $mostrar_columnas = false;
     foreach($query as $row) {
